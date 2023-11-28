@@ -1,0 +1,22 @@
+
+
+.loader {
+  position:absolute;
+  background-color:white;
+  width: 30px;
+  height: 30px;
+  border: solid 4px rgba(0, 0, 0, 0);
+  border-top: solid 5px rgb(0, 0, 0);
+  border-radius: 50%;
+  transition: all 3s;
+  animation: rotation_51512 3s infinite cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  z-index:99;
+  top: 37%; /* Ajusta la posición vertical según sea necesario */
+  left: 40%; /* Ajusta la posición horizontal según sea necesario */
+}
+
+@keyframes rotation_51512 {
+  100% {
+    transform: rotate(360deg);
+  }
+}
