@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 
-const webSocketManager = ({ handleWebSocketMessage, recoverLastMessage, gameID, userID }) => {
+const useWebSocketManager = ({ handleWebSocketMessage, recoverLastMessage, gameID, userID }) => {
     const [socket, setSocket] = useState(null);
     const [isConnected, setIsConnected] = useState(false);
-
 
     let newSocket = null;
 
@@ -58,8 +57,7 @@ const webSocketManager = ({ handleWebSocketMessage, recoverLastMessage, gameID, 
         };
     }, [gameID, userID]);
 
-
     return socket;
 };
 
-export default webSocketManager;
+export default useWebSocketManager;

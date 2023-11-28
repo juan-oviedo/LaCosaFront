@@ -7,7 +7,7 @@ import deckimg from "../images/dorso.jpeg";
 import Table from "../components/Table";
 import Card from "../components/Card";
 import ShiftsGames from "../components/shiftGame/ShiftsGames";
-import webSocketManager from "../utils/WebSocketUtil";
+import useWebSocketManager from "../utils/WebSocketUtil";
 import Notification from "../components/Notification";
 import { useNavigate } from "react-router-dom";
 import { Snackbar } from "@mui/material";
@@ -237,7 +237,7 @@ function PageGame() {
   };
 
   // Connect to the WebSocket server
-  const socket = webSocketManager({ handleWebSocketMessage, recoverLastWsMessage, gameID, userID });
+  const socket = useWebSocketManager({ handleWebSocketMessage, recoverLastWsMessage, gameID, userID });
 
   // fetch game status
   const fetchGameStatus = async () => {
@@ -288,9 +288,9 @@ function PageGame() {
     if (playerStatus?.cards) {
       setPlayerCards(playerStatus.cards);
     }
-    if (playerStatus?.alive) {
-      setPlayerAlive(playerStatus.alive);
-    }
+    // if (playerStatus?.alive) {
+    //   setPlayerAlive(playerStatus.alive);
+    // }
   }, [playerStatus]);
 
   // fetch exchangable cards

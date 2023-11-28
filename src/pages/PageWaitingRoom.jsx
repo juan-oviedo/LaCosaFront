@@ -7,7 +7,7 @@ import { useState } from "react";
 import axios from "axios";
 import Stack from "@mui/material/Stack";
 import { useNavigate } from 'react-router-dom'
-import webSocketManager from "../utils/WebSocketUtil";
+import useWebSocketManager from "../utils/WebSocketUtil";
 
 
 const buttonStyles = {
@@ -58,7 +58,7 @@ function PageWaitingRoom() {
   };
 
   // Connect to the WebSocket server
-  const socket = webSocketManager({handleWebSocketMessage, gameID, userID });
+  const socket = useWebSocketManager({handleWebSocketMessage, gameID, userID });
   
   const fetchPlayers = async () => {
     try {
