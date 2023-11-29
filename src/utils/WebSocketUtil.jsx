@@ -17,7 +17,7 @@ const useWebSocketManager = ({ handleWebSocketMessage, recoverLastMessage, gameI
         const connectWebSocket = () => {
             if (!isConnected) {
                 console.log('Creating new WebSocket connection...');
-                newSocketRef.current = new WebSocket(`ws://lacosa.adaptable.app/ws/${gameID}/${userID}`);
+                newSocketRef.current = new WebSocket(`wss://lacosa.adaptable.app/ws/${gameID}/${userID}`);
 
                 newSocketRef.current.onopen = () => {
                     console.log('WebSocket connection opened. Game ID:', gameID, 'User ID:', userID);
