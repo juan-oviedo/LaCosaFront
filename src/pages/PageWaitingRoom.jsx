@@ -58,7 +58,7 @@ function PageWaitingRoom() {
   };
 
   // Connect to the WebSocket server
-  const socket = useWebSocketManager({handleWebSocketMessage, gameID, userID });
+  useWebSocketManager({handleWebSocketMessage, gameID, userID });
   
   const fetchPlayers = async () => {
     try {
@@ -98,7 +98,7 @@ function PageWaitingRoom() {
 
   // Update is game ready from game info
   useEffect(() => {
-    setIsGameReady(gameInfo.gameStatus == "READY");
+    setIsGameReady(gameInfo.gameStatus === "READY");
   }, [gameInfo]);
 
   // Update is admin from players
@@ -139,7 +139,7 @@ function PageWaitingRoom() {
   }
   console.log(Admin)
   useEffect(()=>{
-    if(gameInfo.gameStatus == "INIT"){
+    if(gameInfo.gameStatus === "INIT"){
         navigate("/juego")
     }
   })
@@ -161,7 +161,7 @@ function PageWaitingRoom() {
       <div className="Buttons">
         <Stack direction="row" spacing={4}>
           {/* //if admin and game is ready, show start game button */}
-          {isAdmin=="true" && isGameReady && (
+          {isAdmin === "true" && isGameReady && (
             <Button
               onClick={handleInitClick}
               variant="outlined"

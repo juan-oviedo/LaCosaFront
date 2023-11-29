@@ -24,7 +24,7 @@ function ShiftsGames({ phaseShift }) {
       }, 1000);
 
       // Cerrar el Snackbar después de 20 segundos
-      if (countdown == 0) {
+      if (countdown === 0) {
         setOpen(false);
       }
 

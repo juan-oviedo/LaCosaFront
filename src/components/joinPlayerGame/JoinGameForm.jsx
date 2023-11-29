@@ -27,7 +27,7 @@ function JoinGameForm() {
   //const [gameId, setGameId] = useState(4);
   const [name, setName] = useState("");
   const [contrasena, setContrasena] = useState("");
-  const [password] = useState(has_password == true);
+  const [password] = useState(has_password === true);
 
   // Manejadores de cambios para los campos
   const handleNombreChange = (event) => {

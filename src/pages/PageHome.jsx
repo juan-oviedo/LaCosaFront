@@ -49,7 +49,7 @@ const columns = [
 
 function PageHome() {
   const [games, setGames] = useState([]);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  //const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [selectedRow, setSelectedRow] = useState(null);
 
   useEffect(() => {
@@ -72,7 +72,7 @@ function PageHome() {
   const handleRowClick = (params) => {
     setSelectedRow(params.row.id);
     sessionStorage.setItem("id_game", params.row.id);
-    setIsButtonDisabled(false);
+    //setIsButtonDisabled(false);
   };
   return (
     <Box className='containerHome'>

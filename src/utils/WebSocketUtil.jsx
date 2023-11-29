@@ -7,11 +7,11 @@ const useWebSocketManager = ({ handleWebSocketMessage, recoverLastMessage, gameI
     let newSocket = null;
 
     // Function to send a message via the WebSocket connection
-    const sendMessage = (message) => {
-        if (newSocket && newSocket.readyState === WebSocket.OPEN) {
-            newSocket.send(JSON.stringify(message));
-        }
-    };
+    // const sendMessage = (message) => {
+    //     if (newSocket && newSocket.readyState === WebSocket.OPEN) {
+    //         newSocket.send(JSON.stringify(message));
+    //     }
+    // };
 
     useEffect(() => {
         const connectWebSocket = () => {

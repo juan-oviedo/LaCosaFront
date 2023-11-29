@@ -96,7 +96,7 @@ function Table({ players, currentPlayer, gamestatus }) {
           const playerNameStyle = {
             position: "absolute",
             left: "95%",
-            transform: "translate(-50%, -50%)", // Center the text inside the circle,
+            //transform: "translate(-50%, -50%)", // Center the text inside the circle,
             textAlign: "center",
             color: "#fff",
             transform: "rotate(90deg)",
@@ -119,7 +119,7 @@ function Table({ players, currentPlayer, gamestatus }) {
                     fontSize: "10px",
                     color: "green",
                   }}
-                ></h1>
+                > </h1>
               )}
 
               {cua && (
@@ -136,7 +136,7 @@ function Table({ players, currentPlayer, gamestatus }) {
                     color: "green",
                     zIndex: cua[index] === true ? "99" : "0",
                   }}
-                ></h1>
+                > </h1>
               )}
               <Avatar
                 alt="Remy Sharp"

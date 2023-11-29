@@ -1,7 +1,7 @@
 // Main game interface
-import { Button, Box, Modal, Typography } from "@mui/material";
+import { Button, Box, Modal} from "@mui/material";
 import "./PageGame.css";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect} from "react";
 import axios from "axios";
 import deckimg from "../images/dorso.jpeg";
 import Table from "../components/Table";
@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { Snackbar } from "@mui/material";
 import ButtonFinishGame from "../components/buttonFinishGame/ButtonFinishGame";
 import InfoGame from "../components/infoGame/InfoGame";
-import Sentido from "../components/senseGame/Sentido";
+//import Sentido from "../components/senseGame/Sentido";
 import Chat from "../components/waitingRoom/Chat";
 import Logs from "../components/infoGame/Logs";
 
@@ -48,7 +48,7 @@ function PageGame() {
   const [currentPlayerId, setCurrentPlayerId] = useState(0); // State variable to store the current player ID
   const [leftPlayer, setLeftPlayer] = useState({}); // State variable to store the left player object
   const [rightPlayer, setRightPlayer] = useState({}); // State variable to store the right player object
-  const [nextPlayerInQuarantine, setNextPlayerInQuarantine] = useState(false); // State variable to store the next player in quarantine
+  //const [nextPlayerInQuarantine, setNextPlayerInQuarantine] = useState(false); // State variable to store the next player in quarantine
   const [phase, setPhase] = useState(0); // State variable to store the phase of the turn [1,2,3
   const userID = sessionStorage.getItem("playerId");
   const gameID = sessionStorage.getItem("id_game");
@@ -56,7 +56,7 @@ function PageGame() {
   const [obstacleLeft, setObstacleLeft] = useState(false);
   const [showAxeOptionLftRgt, setShowAxeOptionLftRgt] = useState(false);
   // JSON websocket message
-  const [wsMessage, setWsMessage] = useState({}); // State variable to store the websocket message
+  //const [wsMessage, setWsMessage] = useState({}); // State variable to store the websocket message
   const [recoveredMessage, setRecoveredMessage] = useState({}); // State variable to store if the websocket message was recovered
 
   const [wsChat, setWsChat] = useState(0); 
@@ -99,7 +99,7 @@ function PageGame() {
   // Handle notifications from the server
   const handleWebSocketMessage = (event) => {
     const data = JSON.parse(event.data);
-    setWsMessage(data);
+    //setWsMessage(data);
     console.log("WebSocket message received:");
     console.log(data);
     if (data.type === 'gameStatus') {
@@ -237,7 +237,7 @@ function PageGame() {
   };
 
   // Connect to the WebSocket server
-  const socket = useWebSocketManager({ handleWebSocketMessage, recoverLastWsMessage, gameID, userID });
+  useWebSocketManager({ handleWebSocketMessage, recoverLastWsMessage, gameID, userID });
 
   // fetch game status
   const fetchGameStatus = async () => {
@@ -334,7 +334,7 @@ function PageGame() {
         setShowCardsDeck(false);
         setShowMessengeCardStolen(true);
         const typeCard = response.data.type;
-        if(typeCard == "SoloEntreNosotros" || typeCard == "Revelaciones" || typeCard == "CitaACiegas" || typeCard == "Oops" || typeCard == "CadenasPodridas" || typeCard == "RondaYRonda" || typeCard == "PodemosSerAmigos" || typeCard == "Olvidadizo" || typeCard == "Carta1_2" || typeCard == "Carta3_4"){
+        if(typeCard === "SoloEntreNosotros" || typeCard === "Revelaciones" || typeCard === "CitaACiegas" || typeCard === "Oops" || typeCard === "CadenasPodridas" || typeCard === "RondaYRonda" || typeCard === "PodemosSerAmigos" || typeCard === "Olvidadizo" || typeCard === "Carta1_2" || typeCard === "Carta3_4"){
           console.log("Robo Carta de Panico!!!!!!!",response.data);
           setCardPanic(response.data);
           setShowCardPanic(true); 
@@ -522,7 +522,7 @@ function PageGame() {
 
   // Update players on table (otherPlayers) and current player (currentPlayerId)
   useEffect(() => {
-    // CAMBIO LA CONDICIÓN DE QUE PLAYER STATUS != HUMAN YA QUE ESO NO LLEGA MAS POR EL GAME STATUS
+    // CAMBIO LA CONDICIÓN DE QUE PLAYER STATUS !== HUMAN YA QUE ESO NO LLEGA MAS POR EL GAME STATUS
     const otherPlayersObject = gameStatus.players
       .filter((player) => player.id !== userID && player.alive)
       .sort((a, b) => a.position - b.position) // Sort based on player IDs
@@ -532,21 +532,21 @@ function PageGame() {
     setCurrentPlayerId(gameStatus.gameInfo.jugadorTurno);
     setPhase(gameStatus.gameInfo.faseDelTurno);
     //check the phase of the turn
-    if (currentPlayerId == playerStatus.id) {
-      if (phase == 1) {
+    if (currentPlayerId === playerStatus.id) {
+      if (phase === 1) {
         setShowCardsDeck(true);
         setShowPlayerCards(true);
         setShowPlayOrDiscardOption(false);
         setShowSelectPlayerButtons(false);
         setShowNotificationBox(false);
-      } else if (phase == 2) {
+      } else if (phase === 2) {
         setShowPlayerCards(true);
         setShowPlayOrDiscardOption(false);
         setShowSelectPlayerButtons(false);
         setShowCardsDeck(false);
         setShowNotificationBox(false);
 
-      } else if (phase == 3) {
+      } else if (phase === 3) {
         setShowPlayerCards(false);
         setShowPlayOrDiscardOption(false);
         getExchangableCards();
@@ -594,7 +594,7 @@ function PageGame() {
         (player) => nxtPlayerObjId === player.id);
 
       if (nextPlayerObject) {
-        setNextPlayerInQuarantine(nextPlayerObject.cuarentena);
+        //setNextPlayerInQuarantine(nextPlayerObject.cuarentena);
       }
 
       const playerPublicObject = gameStatus.players.find(
@@ -627,7 +627,7 @@ function PageGame() {
   // Define a function to handle deck click
   const handleDeckClick = () => {
     console.log("Deck clicked");
-    if (phase == 1 && currentPlayerId == userID) {
+    if (phase === 1 && currentPlayerId === userID) {
       drawCard();
     }
     //setShowCardsDeck(false);
@@ -636,14 +636,14 @@ function PageGame() {
   // Define a function to handle card click
   const handleCardClick = (clickedCard) => {
     // Check if it is the player's turn and the phase of playing
-    if (currentPlayerId == userID) {
+    if (currentPlayerId === userID) {
       setShowAddObstacleOption(false);
       // DRAW FROM DECK
-      if (phase == 1) {
+      if (phase === 1) {
         //NOTHING
       }
       // PLAY OR DISCARD
-      else if (phase == 2) {
+      else if (phase === 2) {
         // Enables and disables the play or discard button.
         if (selectedCard.id === clickedCard) {
           setSelectedCard({});
@@ -655,7 +655,7 @@ function PageGame() {
           setShowPlayOrDiscardOption(true);
         }
         // IT DO NOT HAVE TO ENTER HERE
-      } else if (phase == 3) {
+      } else if (phase === 3) {
         if (inExchange) {
           setShowPlayerCards(false);
           setShowNotificationBox(false);
@@ -674,7 +674,7 @@ function PageGame() {
   // Define a function to handle play card click
   const handlePlayCardClick = async (clickedCard) => {
     // Check if it is the player's turn and the phase of playing
-    if (currentPlayerId == userID && phase == 2) {
+    if (currentPlayerId === userID && phase === 2) {
       switch (clickedCard.type) {
         case 'Lanzallamas':
           setShowPlayOrDiscardOption(false);
@@ -799,7 +799,7 @@ function PageGame() {
 
   // Define a function to handle Discard card click
   const handleDiscardCard = async (selectedCard) => {
-    if (currentPlayerId == userID && showPlayOrDiscardOption) {
+    if (currentPlayerId === userID && showPlayOrDiscardOption) {
       try {
         console.log("Enviando solicitud de descarte de carta...");
         console.log("gameID:", gameID);
@@ -923,7 +923,7 @@ function PageGame() {
     console.log(`Player selected: ${targetPlayerId}`);
     console.log(`Card selected: ${selectedCard.id}`);
     console.log(`target id: ${targetPlayerId}`);
-    if (selectedCard.type == 'Cuarentena' && gameStatus.players.find((player) => player.id === targetPlayerId).cuarentena) {
+    if (selectedCard.type === 'Cuarentena' && gameStatus.players.find((player) => player.id === targetPlayerId).cuarentena) {
       setNotificationMessage("El jugador ya tiene cuarentena");
       setShowNotificationBox(true);
     } else {
@@ -939,7 +939,7 @@ function PageGame() {
   // Define a function to handle notification OK click
   const handleNotificationOKClick = () => {
     // Check if it is the player's turn and the phase
-    if (currentPlayerId == userID && inExchange) {
+    if (currentPlayerId === userID && inExchange) {
       //NOTHING, WAIT FOR THE OTHER PLAYER TO EXCHANGE
       // chequear que sea necesario setear o si ya vienen seteados
       setShowCardsDeck(false);
@@ -956,20 +956,20 @@ function PageGame() {
     console.log("inExchangeWith", inExchangeWith);
     console.log("userID", userID);
     console.log("leftPlayer.id", leftPlayer.id);
-    if (inExchange && inSeduccion && currentPlayerId == userID) {
+    if (inExchange && inSeduccion && currentPlayerId === userID) {
       handleSeduccion(inExchangeWith, exchangeCard);
       setInSeduccion(false);
     }
-    if (currentPlayerId != userID && inExchange && inSeduccion) {
+    if (currentPlayerId !== userID && inExchange && inSeduccion) {
       handleSeduccion2(inExchangeWith, userID, exchangeCard);
       setInSeduccion(false);
     }
     // Here when player is not in turn and received a solicitude to exchange
-    if (currentPlayerId != userID && inExchange && !inSeduccion) {
+    if (currentPlayerId !== userID && inExchange && !inSeduccion) {
       exchangeCards2(inExchangeWith, userID, exchangeCard);
       // Here when player is in turn and in phase of exchanging
       // In this case we call the exchangeCards function that touches the /change endpoint
-    } else if (currentPlayerId == userID && inExchange && !inSeduccion) {
+    } else if (currentPlayerId === userID && inExchange && !inSeduccion) {
       exchangeCards1(inExchangeWith, exchangeCard);
     }
   };
@@ -982,14 +982,14 @@ function PageGame() {
   // function to handle eliminination of obstacle between left player and user 
   const handleLftPlayerObstacle = (selectedCardId) => {
     // find obstacle id from obstacle list in gameStatus.gameInfo.obstaculosPuertaAtrancada
-    // that has jugador_izquierda == leftPlayer.id and jugador_derecha == userID
+    // that has jugador_izquierda === leftPlayer.id and jugador_derecha === userID
     console.log("gameStatus.gameInfo.obstaculosPuertaAtrancada", gameStatus.gameInfo.obstaculosPuertaAtrancada);
     console.log("leftPlayer.position", leftPlayer.position);
     console.log("playerStatus.position", playerStatus.position);
     console.log("playerStatus", playerStatus);
     console.log("leftPlayer", leftPlayer);
     const obstacle = gameStatus.gameInfo.obstaculosPuertaAtrancada.find((obstacle) =>
-      (obstacle.jugador_izquierda == leftPlayer.position)
+      (obstacle.jugador_izquierda === leftPlayer.position)
     );
     console.log("Obstacle obtained from gameStatus. obstacle:", obstacle);
     const obstacleId = obstacle ? obstacle.id : null;
@@ -1005,14 +1005,14 @@ function PageGame() {
   // function to handle right player quarantine elimination
   const handleRgtPlayerObstacle = (selectedCardId) => {
     // find obstacle id from obstacle list in gameStatus.gameInfo.obstaculosPuertaAtrancada
-    //the one that has jugador_izquierda == userID and jugador_derecha == rightPlayer.id
+    //the one that has jugador_izquierda === userID and jugador_derecha === rightPlayer.id
     console.log("gameStatus.gameInfo.obstaculosPuertaAtrancada", gameStatus.gameInfo.obstaculosPuertaAtrancada);
     console.log("rightPlayer", rightPlayer.position);
     console.log("playerStatus.position", playerStatus.position);
     console.log("playerStatus", playerStatus);
     console.log("rightPlayer", rightPlayer);
     const obstacle = gameStatus.gameInfo.obstaculosPuertaAtrancada.find((obstacle) =>
-      (obstacle.jugador_izquierda == playerStatus.position)
+      (obstacle.jugador_izquierda === playerStatus.position)
     );
     const obstacleId = obstacle ? obstacle.id : null;
     if (obstacleId) {
@@ -1043,7 +1043,7 @@ function PageGame() {
   const handleRemoveQuarantine = (selectedCardId, playerId) => {
     // find obstacle id from obstacle list in gameStatus.gameInfo.obstaculosCuarentena
     const obstacleId = gameStatus.gameInfo.obstaculosCuarentena.find((obstacle) =>
-      obstacle.jugador_izquierda == playerId).id;
+      obstacle.jugador_izquierda === playerId).id;
     console.log("Obstacle obtained from gameStatus. obstacleId:", obstacleId);
     if (obstacleId) {
       playCard(selectedCardId, obstacleId);
@@ -1068,8 +1068,8 @@ useEffect(() => {
   //Draw card automatically
   useEffect(() => {
     if (
-      gameStatus.gameInfo.jugadorTurno == userID &&
-      gameStatus.gameInfo.faseDelTurno == 1
+      gameStatus.gameInfo.jugadorTurno === userID &&
+      gameStatus.gameInfo.faseDelTurno === 1
     ) {
       const timeOut = setTimeout(() => {
         axios
@@ -1138,7 +1138,7 @@ useEffect(() => {
 
   return (
     <Box className="containerGame">
-      {playerStatus && playerStatus.status == "theThing" && (
+      {playerStatus && playerStatus.status === "theThing" && (
         <ButtonFinishGame gameID={gameID} playerID={userID}></ButtonFinishGame>
       )}
       {
@@ -1390,7 +1390,7 @@ useEffect(() => {
                   color="primary"
                   onClick={() => handlePlayerSelection(playerName.id)}
                   style={buttonStyles}
-                  disabled={!(playerName.id != userID)}
+                  disabled={!(playerName.id !== userID)}
                 >
                   {playerName.name}
                 </Button>) : null
@@ -1594,7 +1594,7 @@ useEffect(() => {
           </div>
         )}
       </div>
-      {gameStatus.gameInfo.jugadorTurno == userID && (
+      {gameStatus.gameInfo.jugadorTurno === userID && (
         <ShiftsGames
           phaseShift={gameStatus.gameInfo.faseDelTurno}
         ></ShiftsGames>

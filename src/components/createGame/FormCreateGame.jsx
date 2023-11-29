@@ -23,10 +23,10 @@ const LoadingStyles = {
   marginBottom: '24px',
 }
 
-const formStyles = {
-  fontFamily: 'KCWaxMuseum, sans-serif',
-  color: '#ffffff', // White text color
-};
+// const formStyles = {
+//   fontFamily: 'KCWaxMuseum, sans-serif',
+//   color: '#ffffff', // White text color
+// };
 
 function FormCreateGame() {
   const [name, setName] = useState(null);

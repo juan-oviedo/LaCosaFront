@@ -18,7 +18,7 @@ function Logs ({gameID, wsLog}) {
     // // Set up an interval to fetch logs every 30 seconds
     // const intervalId = setInterval(fetchLogs, 30000);
     // return () => clearInterval(intervalId);
-}, [wsLog]);
+  }, [wsLog]);
 
     return (
     <div>
@@ -37,10 +37,10 @@ function Logs ({gameID, wsLog}) {
             && log.target_name && (
             <span>{log.action} a {log.target_name}</span>
             )}
-            {log.action == "Cambio cartas" && (
+            {log.action === "Cambio cartas" && (
             <span>{log.action} con {log.target_name}</span>
             )}
-            {log.action == "Se defendio" && (
+            {log.action === "Se defendio" && (
             <span>{log.action} de {log.target_name}</span>
             )}
           </div>
