@@ -18,6 +18,8 @@ function Logs ({gameID, wsLog}) {
     // // Set up an interval to fetch logs every 30 seconds
     // const intervalId = setInterval(fetchLogs, 30000);
     // return () => clearInterval(intervalId);
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wsLog]);
 
     return (

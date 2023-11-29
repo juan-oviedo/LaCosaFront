@@ -272,12 +272,14 @@ function PageGame() {
   useEffect(() => {
     fetchGameStatus();
     fetchPlayerStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Get initial player status
   useEffect(() => {
     fetchPlayerStatus();
     fetchGameStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameID, userID]);
 
   // Update player cards and alive status
@@ -518,6 +520,7 @@ function PageGame() {
       //Cambia a la pagina de resultados
       navigate(`/resultados/${gameID}`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameStatus, gameID]);
 
   // Update players on table (otherPlayers) and current player (currentPlayerId)
@@ -567,6 +570,7 @@ function PageGame() {
       setShowPlayerCards(true);
       setInExchange(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameStatus, phase, userID, playerStatus]);
 
   // Update leftPlayer and rightPlayer according to user.position
@@ -622,6 +626,7 @@ function PageGame() {
 
 
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playerStatus, userID, gameStatus]);
 
   // Define a function to handle deck click
@@ -1063,6 +1068,7 @@ useEffect(() => {
       // Call handleWebSocketMessage with the recovered message
       handleWebSocketMessage({ data: JSON.stringify(recoveredMessage) });
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [recoveredMessage]);
 
   //Draw card automatically
@@ -1089,6 +1095,7 @@ useEffect(() => {
 
   useEffect(() => {
     recoverLastWsMessage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const sendRevelacion = (show_cards,show_infection) =>{

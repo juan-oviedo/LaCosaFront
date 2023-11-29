@@ -42,6 +42,7 @@ function Chat({gameID, userID, wsMsg}) {
     console.log(lastmsg);
     console.log(wsMsg);
     fetchNewMessage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wsMsg]);
 
   const handleInputChange = (event) => {

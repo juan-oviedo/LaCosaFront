@@ -93,7 +93,8 @@ function PageWaitingRoom() {
   useEffect(() => {    
     // Initial fetch of players and game info
     fetchGameInfo();
-    fetchPlayers();   
+    fetchPlayers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps   
   }, [gameID]);
 
   // Update is game ready from game info

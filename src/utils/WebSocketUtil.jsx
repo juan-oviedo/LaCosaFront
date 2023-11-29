@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const useWebSocketManager = ({ handleWebSocketMessage, recoverLastMessage, gameID, userID }) => {
     const [socket, setSocket] = useState(null);
     const [isConnected, setIsConnected] = useState(false);
 
-    let newSocket = null;
+    const newSocketRef = useRef(null);
 
     // Function to send a message via the WebSocket connection
     // const sendMessage = (message) => {
@@ -17,22 +17,22 @@ const useWebSocketManager = ({ handleWebSocketMessage, recoverLastMessage, gameI
         const connectWebSocket = () => {
             if (!isConnected) {
                 console.log('Creating new WebSocket connection...');
-                newSocket = new WebSocket(`ws://localhost:8000/ws/${gameID}/${userID}`);
+                newSocketRef.current = new WebSocket(`ws://localhost:8000/ws/${gameID}/${userID}`);
 
-                newSocket.onopen = () => {
+                newSocketRef.current.onopen = () => {
                     console.log('WebSocket connection opened. Game ID:', gameID, 'User ID:', userID);
                     setIsConnected(true);
-                    setSocket(newSocket);
+                    setSocket(newSocketRef.current);
                     // Recover last message
                 };
 
-                newSocket.onmessage = handleWebSocketMessage;
+                newSocketRef.current.onmessage = handleWebSocketMessage;
 
-                newSocket.onerror = (error) => {
+                newSocketRef.current.onerror = (error) => {
                     console.error('WebSocket Error:', error);
                 };
 
-                newSocket.onclose = (event) => {
+                newSocketRef.current.onclose = (event) => {
                     console.log('WebSocket Closed:', event);
                     setIsConnected(false);
                     // Try to reconnect in 1 second
@@ -50,11 +50,12 @@ const useWebSocketManager = ({ handleWebSocketMessage, recoverLastMessage, gameI
 
         return () => {
             console.log('Cleaning up WebSocket connection...');
-            if (newSocket && newSocket.readyState === WebSocket.OPEN) {
-                newSocket.close();
+            if (newSocketRef.current && newSocketRef.current.readyState === WebSocket.OPEN) {
+                newSocketRef.current.close();
                 setIsConnected(false);
             }
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [gameID, userID]);
 
     return socket;

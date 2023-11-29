@@ -37,6 +37,7 @@ function Card({ id, type, number, onClick, selectedCard }) {
 
   useEffect(() => {
     setIsSelected(selectedCard === id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCard])
 
   const toggleSelection = () => {
