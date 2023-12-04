@@ -50,7 +50,8 @@ function PageGame() {
   const [rightPlayer, setRightPlayer] = useState({}); // State variable to store the right player object
   //const [nextPlayerInQuarantine, setNextPlayerInQuarantine] = useState(false); // State variable to store the next player in quarantine
   const [phase, setPhase] = useState(0); // State variable to store the phase of the turn [1,2,3
-  const userID = parseInt(sessionStorage.getItem("playerId"));
+  const userID = sessionStorage.getItem("playerId");
+  const userID_INT = parseInt(sessionStorage.getItem("playerId"));
   const gameID = sessionStorage.getItem("id_game");
   const [obstacleRight, setObstacleRight] = useState(false);
   const [obstacleLeft, setObstacleLeft] = useState(false);
@@ -632,7 +633,7 @@ function PageGame() {
   // Define a function to handle deck click
   const handleDeckClick = () => {
     console.log("Deck clicked");
-    if (phase === 1 && currentPlayerId === userID) {
+    if (phase === 1 && currentPlayerId === userID_INT) {
       console.log("entro al draw card");
       drawCard();
     }
@@ -642,7 +643,7 @@ function PageGame() {
   // Define a function to handle card click
   const handleCardClick = (clickedCard) => {
     // Check if it is the player's turn and the phase of playing
-    if (currentPlayerId === userID) {
+    if (currentPlayerId === userID_INT) {
       setShowAddObstacleOption(false);
       // DRAW FROM DECK
       if (phase === 1) {
@@ -680,7 +681,7 @@ function PageGame() {
   // Define a function to handle play card click
   const handlePlayCardClick = async (clickedCard) => {
     // Check if it is the player's turn and the phase of playing
-    if (currentPlayerId === userID && phase === 2) {
+    if (currentPlayerId === userID_INT && phase === 2) {
       switch (clickedCard.type) {
         case 'Lanzallamas':
           setShowPlayOrDiscardOption(false);
@@ -805,7 +806,7 @@ function PageGame() {
 
   // Define a function to handle Discard card click
   const handleDiscardCard = async (selectedCard) => {
-    if (currentPlayerId === userID && showPlayOrDiscardOption) {
+    if (currentPlayerId === userID_INT && showPlayOrDiscardOption) {
       try {
         console.log("Enviando solicitud de descarte de carta...");
         console.log("gameID:", gameID);
@@ -945,7 +946,7 @@ function PageGame() {
   // Define a function to handle notification OK click
   const handleNotificationOKClick = () => {
     // Check if it is the player's turn and the phase
-    if (currentPlayerId === userID && inExchange) {
+    if (currentPlayerId === userID_INT && inExchange) {
       //NOTHING, WAIT FOR THE OTHER PLAYER TO EXCHANGE
       // chequear que sea necesario setear o si ya vienen seteados
       setShowCardsDeck(false);
@@ -962,20 +963,20 @@ function PageGame() {
     console.log("inExchangeWith", inExchangeWith);
     console.log("userID", userID);
     console.log("leftPlayer.id", leftPlayer.id);
-    if (inExchange && inSeduccion && currentPlayerId === userID) {
+    if (inExchange && inSeduccion && currentPlayerId === userID_INT) {
       handleSeduccion(inExchangeWith, exchangeCard);
       setInSeduccion(false);
     }
-    if (currentPlayerId !== userID && inExchange && inSeduccion) {
+    if (currentPlayerId !== userID_INT && inExchange && inSeduccion) {
       handleSeduccion2(inExchangeWith, userID, exchangeCard);
       setInSeduccion(false);
     }
     // Here when player is not in turn and received a solicitude to exchange
-    if (currentPlayerId !== userID && inExchange && !inSeduccion) {
+    if (currentPlayerId !== userID_INT && inExchange && !inSeduccion) {
       exchangeCards2(inExchangeWith, userID, exchangeCard);
       // Here when player is in turn and in phase of exchanging
       // In this case we call the exchangeCards function that touches the /change endpoint
-    } else if (currentPlayerId === userID && inExchange && !inSeduccion) {
+    } else if (currentPlayerId === userID_INT && inExchange && !inSeduccion) {
       exchangeCards1(inExchangeWith, exchangeCard);
     }
   };
