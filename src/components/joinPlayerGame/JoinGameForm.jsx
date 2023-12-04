@@ -5,6 +5,18 @@ import axios from "axios";
 import "./JoinGameForm.css";
 import { useNavigate } from 'react-router-dom'
 
+const mode = process.env.REACT_APP_MODE;
+let url;
+if (mode === "dev") {
+  url = process.env.REACT_APP_URL_DEVELOPMENT;
+}
+else if (mode === "prod") {
+  url = process.env.REACT_APP_URL_PRODUCTION;
+}
+else {
+  throw new Error("Invalid mode");
+}
+
 const buttonStyles = {
   width: '490px', fontSize: '20px', marginTop: '-250px',
   background: '#8B0000', // Dark red color
@@ -50,7 +62,7 @@ function JoinGameForm() {
         gameId: gameId,
       };
 
-      const response = await axios.post("https://lacosa.adaptable.app/player/join", form);
+      const response = await axios.post(`${url}/player/join`, form);
       console.log(response.status);
       if (response.status === 200) {
         // Operación exitosa, mostrar un mensaje de éxito

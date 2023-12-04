@@ -17,6 +17,18 @@ import InfoGame from "../components/infoGame/InfoGame";
 import Chat from "../components/waitingRoom/Chat";
 import Logs from "../components/infoGame/Logs";
 
+const mode = process.env.REACT_APP_MODE;
+let url;
+if (mode === "dev") {
+  url = process.env.REACT_APP_URL_DEVELOPMENT;
+}
+else if (mode === "prod") {
+  url = process.env.REACT_APP_URL_PRODUCTION;
+}
+else {
+  throw new Error("Invalid mode");
+}
+
 const buttonStyles = {
   width: "120px",
   background: "#8B0000", // Dark red color
@@ -219,7 +231,7 @@ function PageGame() {
       wait(1000); // Wait 1 second
       // Make a GET request to fetch last websocket message based on the game ID
       const response = await axios.get(
-        `https://lacosa.adaptable.app/game/lastMessage?id_game=${gameID}&id_player=${userID}`
+        `${url}/game/lastMessage?id_game=${gameID}&id_player=${userID}`
       );
       if (response.status === 200) {
         console.log("Last websocket message fetched successfully!");
@@ -244,7 +256,7 @@ function PageGame() {
     try {
       // Make a GET request to fetch game status based on the game ID
       const response = await axios.get(
-        `https://lacosa.adaptable.app/game/status?id_game=${gameID}`
+        `${url}/game/status?id_game=${gameID}`
       );
 
       // Set the players state with the data from the response
@@ -259,7 +271,7 @@ function PageGame() {
     try {
       // Make a get request to fetch player status based on the game ID and user ID /status/player
       const response = await axios.get(
-        `https://lacosa.adaptable.app/game/playerstatus?id_game=${gameID}&id_player=${userID}`
+        `${url}/game/playerstatus?id_game=${gameID}&id_player=${userID}`
       );
       // Set the players state with the data from the response
       setPlayerStatus(response.data);
@@ -300,7 +312,7 @@ function PageGame() {
     try {
       // Make a get request to fetch exchangable cards based on the game ID and user ID
       const response = await axios.get(
-        `https://lacosa.adaptable.app/card/change/${userID}`
+        `${url}/card/change/${userID}`
       );
       // Set the players state with the data from the response
       setExchangableCards(response.data);
@@ -314,7 +326,7 @@ function PageGame() {
   const handleWhiskey = async (playerW) => {
     try {
       const response = await axios.get(
-        `https://lacosa.adaptable.app/card/cards/${playerW}`
+        `${url}/card/cards/${playerW}`
       );
       if (response.status === 200) {
         console.log(response.data);
@@ -329,7 +341,7 @@ function PageGame() {
     try {
       // Make a POST request to draw a card
       const response = await axios.post(
-        `https://lacosa.adaptable.app/card/steal_card/${userID}`);
+        `${url}/card/steal_card/${userID}`);
       // Check if the post return success
       if (response.status === 200) {
         console.log("Card drawn successfully!");
@@ -367,7 +379,7 @@ function PageGame() {
       );
       setShowNotificationBox(true);
       // Make post request to exchange cards
-      const response = await axios.post(`https://lacosa.adaptable.app/card/change1`, {
+      const response = await axios.post(`${url}/card/change1`, {
         player_id: userID,
         player_to_id: player_to_id,
         card_id: card_id,
@@ -404,7 +416,7 @@ function PageGame() {
       console.log("selectedCard", selectedCardId);
 
       // Make post request to exchange cards
-      const response = await axios.post(`https://lacosa.adaptable.app/card/change2`, {
+      const response = await axios.post(`${url}/card/change2`, {
         player_id: inExchangeWith,
         player_to_id: userID,
         card_id2: selectedCardId,
@@ -435,7 +447,7 @@ function PageGame() {
   const handleSeduccion = async (player_to_id, card_id) => {
     try {
       const response = await axios.post(
-        `https://lacosa.adaptable.app/card/change_in_play_1`,
+        `${url}/card/change_in_play_1`,
         {
           player_id: userID,
           player_to_id: player_to_id,
@@ -470,7 +482,7 @@ function PageGame() {
 
       // Make post request to exchange cards 
       const response = await axios.post(
-        `https://lacosa.adaptable.app/card/change_in_play_2`
+        `${url}/card/change_in_play_2`
         , {
           player_id: inExchangeWith,
           player_to_id: userID,
@@ -813,7 +825,7 @@ function PageGame() {
 
         //Make a POST request to discard the card
         const response = await axios.post(
-          `https://lacosa.adaptable.app/card/discard_card/${userID}/${selectedCard.id}`,
+          `${url}/card/discard_card/${userID}/${selectedCard.id}`,
           {
             id_game: gameID,
           }
@@ -842,7 +854,7 @@ function PageGame() {
       // Make a POST request to play a card
       // Chequear que se esté haciendo bien el post
       const response = await axios.post(
-        `https://lacosa.adaptable.app/card/play_card1`,
+        `${url}/card/play_card1`,
         {
           id_game: gameID,
           id_player: userID,
@@ -886,7 +898,7 @@ function PageGame() {
       // Make a get request to fetch defense cards based on the game ID and user ID
       console.log(card, condicionDef, playerStatus.id, playerAttack);
       const response = await axios.post(
-        `https://lacosa.adaptable.app/card/play_card2`,
+        `${url}/card/play_card2`,
         {
           // los datos que tengo que enviar al back son: id_game, id_player, id_card
           id_player: playerAttack,
@@ -1031,7 +1043,7 @@ function PageGame() {
   const handleQuarantine = async (player_id) => {
     try{
       const response = await axios.get(
-        `https://lacosa.adaptable.app/card/show_card/${player_id}`
+        `${url}/card/show_card/${player_id}`
       );
       console.log(response.data);
       if (response.status === 200) {
@@ -1079,7 +1091,7 @@ useEffect(() => {
     ) {
       const timeOut = setTimeout(() => {
         axios
-          .post(`https://lacosa.adaptable.app/card/steal_card/${userID}`)
+          .post(`${url}/card/steal_card/${userID}`)
           .then((res) => {
             console.log(res);
             setShowMessengeCardStolen(true);
@@ -1099,13 +1111,12 @@ useEffect(() => {
   }, []);
 
   const sendRevelacion = (show_cards,show_infection) =>{
-    const url="https://lacosa.adaptable.app/card/revelaciones";
     const data = {
       id_player: userID,
       show_cards: show_cards,
       show_infection: show_infection
     }
-    axios.post(url,data)
+    axios.post(`${url}/card/revelaciones`,data)
     .then((response) => {
       if(response.status === 200){
         setShowCardsRevelacion(false)}
@@ -1114,8 +1125,7 @@ useEffect(() => {
 
   }
   const sendRevelacionInfection = (playerId) =>{
-    const url = `https://lacosa.adaptable.app/card/show_infection?id_player=${playerId}`;
-    axios.post(url)
+    axios.post(`${url}/card/show_infection?id_player=${playerId}`)
     .then((response) => {
       if(response.status === 200)
       console.log(response.data);

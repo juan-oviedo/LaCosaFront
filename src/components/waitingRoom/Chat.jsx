@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const mode = process.env.REACT_APP_MODE;
+let url;
+if (mode === "dev") {
+  url = process.env.REACT_APP_URL_DEVELOPMENT;
+}
+else if (mode === "prod") {
+  url = process.env.REACT_APP_URL_PRODUCTION;
+}
+else {
+  throw new Error("Invalid mode");
+}
+
 function Chat({gameID, userID, wsMsg}) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -9,7 +21,7 @@ function Chat({gameID, userID, wsMsg}) {
   // useEffect(() => {
   //   const fetchMessages = async () => {
   //     try {
-  //       const response = await axios.get(`https://lacosa.adaptable.app/chat/get_messages/${gameID}`);
+  //       const response = await axios.get(`${url}/chat/get_messages/${gameID}`);
   //       setMessages(response.data);
   //       setLastmsg(response.data.length);
   //     } catch (error) {
@@ -29,7 +41,7 @@ function Chat({gameID, userID, wsMsg}) {
 
   const fetchNewMessage = async () => {
     try {
-      const response = await axios.get(`https://lacosa.adaptable.app/chat/get_messages_from/${gameID}/${lastmsg}`);
+      const response = await axios.get(`${url}/chat/get_messages_from/${gameID}/${lastmsg}`);
       setMessages(response.data);
       setLastmsg(1);
       console.log(lastmsg);
@@ -60,10 +72,8 @@ function Chat({gameID, userID, wsMsg}) {
   };
 
   const sendMessage = async () => {
-    const url = "https://lacosa.adaptable.app/chat/send_message";
-
     try {
-      const response = await axios.post(url, {
+      const response = await axios.post(`${url}/chat/send_message`, {
         game_id: gameID,
         player_id: userID,
         text: newMessage,

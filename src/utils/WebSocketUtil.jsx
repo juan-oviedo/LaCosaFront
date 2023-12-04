@@ -1,5 +1,17 @@
 import { useEffect, useState, useRef } from "react";
 
+const mode = process.env.REACT_APP_MODE;
+let url;
+if (mode === "dev") {
+  url = process.env.REACT_APP_WS_DEVELOPMENT;
+}
+else if (mode === "prod") {
+  url = process.env.REACT_APP_WS_PRODUCTION;
+}
+else {
+  throw new Error("Invalid mode");
+}
+
 const useWebSocketManager = ({ handleWebSocketMessage, recoverLastMessage, gameID, userID }) => {
     const [socket, setSocket] = useState(null);
     const [isConnected, setIsConnected] = useState(false);
@@ -17,7 +29,7 @@ const useWebSocketManager = ({ handleWebSocketMessage, recoverLastMessage, gameI
         const connectWebSocket = () => {
             if (!isConnected) {
                 console.log('Creating new WebSocket connection...');
-                newSocketRef.current = new WebSocket(`wss://lacosa.adaptable.app/ws/${gameID}/${userID}`);
+                newSocketRef.current = new WebSocket(`${url}/ws/${gameID}/${userID}`);
 
                 newSocketRef.current.onopen = () => {
                     console.log('WebSocket connection opened. Game ID:', gameID, 'User ID:', userID);

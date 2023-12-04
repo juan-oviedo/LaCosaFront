@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const mode = process.env.REACT_APP_MODE;
+let url;
+if (mode === "dev") {
+  url = process.env.REACT_APP_URL_DEVELOPMENT;
+}
+else if (mode === "prod") {
+  url = process.env.REACT_APP_URL_PRODUCTION;
+}
+else {
+  throw new Error("Invalid mode");
+}
+
 function Logs ({gameID, wsLog}) {
   const [logs, setlogs] = useState([]);
 
   const fetchLogs = async () => {
     try {
-      const response = await axios.get(`https://lacosa.adaptable.app/chat/get_game_logs/${gameID}`);
+      const response = await axios.get(`${url}/chat/get_game_logs/${gameID}`);
       setlogs(response.data);
       } catch (error) {
       console.error("Error fetching logs:", error);

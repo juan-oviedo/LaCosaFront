@@ -4,6 +4,18 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import "./PageHome.css";
 
+const mode = process.env.REACT_APP_MODE;
+let url;
+if (mode === "dev") {
+  url = process.env.REACT_APP_URL_DEVELOPMENT;
+}
+else if (mode === "prod") {
+  url = process.env.REACT_APP_URL_PRODUCTION;
+}
+else {
+  throw new Error("Invalid mode");
+}
+
 const buttonStyles = {
   width: '200px', minHeight: '170px', fontSize: '24px', 
   background: '#8B0000', // Dark red color
@@ -55,8 +67,7 @@ function PageHome() {
   useEffect(() => {
     // Define la función que realiza la petición GET
     const actData = async () => {
-      const url = "https://lacosa.adaptable.app/game/";
-      axios.get(url).then((res) => {
+      axios.get(`${url}/game/`).then((res) => {
         console.log(res.data);
         setGames(res.data);
       });

@@ -6,6 +6,17 @@ import { Link } from "react-router-dom"
 import axios from "axios";
 import trompetas from '../others/trumpets.mp3';
 
+const mode = process.env.REACT_APP_MODE;
+let url;
+if (mode === "dev") {
+  url = process.env.REACT_APP_URL_DEVELOPMENT;
+}
+else if (mode === "prod") {
+  url = process.env.REACT_APP_URL_PRODUCTION;
+}
+else {
+  throw new Error("Invalid mode");
+}
 
 function PageGameResult({ gameID }) {
 
@@ -26,7 +37,7 @@ function PageGameResult({ gameID }) {
     const fetchGameResultInfo = async () => {
       try {        
         // Get game winners data from the API
-        const gameResultResponse = await axios.get(`https://lacosa.adaptable.app/game/${gameID}/winners`);
+        const gameResultResponse = await axios.get(`${url}/game/${gameID}/winners`);
         console.log("Respuesta de la API:", gameResultResponse);
   
         // Extract the winners' information from the game result.
@@ -39,7 +50,7 @@ function PageGameResult({ gameID }) {
           try {
             console.log("Sending a request to delete the game");
             // Make a DELETE request to the backend to delete the game
-            await axios.delete(`https://lacosa.adaptable.app/game/${gameID}`);
+            await axios.delete(`${url}/game/${gameID}`);
             
             console.log("Game successfully eliminated");
 

@@ -5,6 +5,17 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import sleep from "../slepp";
 
+const mode = process.env.REACT_APP_MODE;
+let url;
+if (mode === "dev") {
+  url = process.env.REACT_APP_URL_DEVELOPMENT;
+}
+else if (mode === "prod") {
+  url = process.env.REACT_APP_URL_PRODUCTION;
+}
+else {
+  throw new Error("Invalid mode");
+}
 
 const buttonStyles = {
   width: '200px', fontSize: '24px',
@@ -41,8 +52,7 @@ function FormCreateGame() {
 
   const sendData = async (e) => {
     e.preventDefault();
-    const url = "https://lacosa.adaptable.app/game/";
-
+    
     const form = {
       name: name,
       min_players: minPlayer,
@@ -58,7 +68,7 @@ function FormCreateGame() {
     }
     setLoading(true);
     axios
-      .post(url, form)
+      .post(`${url}/game/`, form)
       .then((response) => {
         console.log(response.status);
         if (response.status === 201) {

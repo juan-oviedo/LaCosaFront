@@ -7,6 +7,18 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 
+const mode = process.env.REACT_APP_MODE;
+let url;
+if (mode === "dev") {
+  url = process.env.REACT_APP_URL_DEVELOPMENT;
+}
+else if (mode === "prod") {
+  url = process.env.REACT_APP_URL_PRODUCTION;
+}
+else {
+  throw new Error("Invalid mode");
+}
+
 const buttonStyles = {
   width: "120px",
   background: "#8B0000", // Dark red color
@@ -33,14 +45,13 @@ const ButtonFinishGame = ({gameID,playerID}) => {
   };
 
   const finishGame = () => {
-    const url = "https://lacosa.adaptable.app/game/finish";
     const form = {
       game_id: gameID,
       player_id: playerID,
     };
     console.log(gameID,playerID)
     axios
-      .post(url,form)
+      .post(`${url}/game/finish`,form)
       .then((res) => {
         console.log(res);
       })

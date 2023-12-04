@@ -9,6 +9,17 @@ import Stack from "@mui/material/Stack";
 import { useNavigate } from 'react-router-dom'
 import useWebSocketManager from "../utils/WebSocketUtil";
 
+const mode = process.env.REACT_APP_MODE;
+let url;
+if (mode === "dev") {
+  url = process.env.REACT_APP_URL_DEVELOPMENT;
+}
+else if (mode === "prod") {
+  url = process.env.REACT_APP_URL_PRODUCTION;
+}
+else {
+  throw new Error("Invalid mode");
+}
 
 const buttonStyles = {
   width: '200px', fontSize: '24px', 
@@ -64,7 +75,7 @@ function PageWaitingRoom() {
     try {
       // Make a GET request to fetch players based on the game ID
       const response = await axios.get(
-        `https://lacosa.adaptable.app/player?game_id=${gameID}`
+        `${url}/player?game_id=${gameID}`
       );
 
       // Set the players state with the data from the response
@@ -78,7 +89,7 @@ function PageWaitingRoom() {
     try {
       // Make a GET request to fetch game info
       const response = await axios.get(
-        `https://lacosa.adaptable.app/game/status?id_game=${gameID}`
+        `${url}/game/status?id_game=${gameID}`
       );
 
       // Set the gameInfo state with the data from the response
@@ -110,7 +121,7 @@ function PageWaitingRoom() {
   const handleInitClick = async () => {
     try {
       // Make a POST request to start the game
-      const response = await axios.post(`https://lacosa.adaptable.app/game/start`, {
+      const response = await axios.post(`${url}/game/start`, {
         id_game: gameID,
         id_player: userID,
       });
@@ -131,7 +142,7 @@ function PageWaitingRoom() {
   };
 
   const exitGame = async () =>{
-    axios.delete(`https://lacosa.adaptable.app/player/${userID}`)
+    axios.delete(`${url}/player/${userID}`)
     .then(
       navigate("/")
     ).catch((error) => {
