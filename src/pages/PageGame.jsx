@@ -50,7 +50,7 @@ function PageGame() {
   const [rightPlayer, setRightPlayer] = useState({}); // State variable to store the right player object
   //const [nextPlayerInQuarantine, setNextPlayerInQuarantine] = useState(false); // State variable to store the next player in quarantine
   const [phase, setPhase] = useState(0); // State variable to store the phase of the turn [1,2,3
-  const userID = sessionStorage.getItem("playerId");
+  const userID = parseInt(sessionStorage.getItem("playerId"));
   const gameID = sessionStorage.getItem("id_game");
   const [obstacleRight, setObstacleRight] = useState(false);
   const [obstacleLeft, setObstacleLeft] = useState(false);
@@ -633,6 +633,7 @@ function PageGame() {
   const handleDeckClick = () => {
     console.log("Deck clicked");
     if (phase === 1 && currentPlayerId === userID) {
+      console.log("entro al draw card");
       drawCard();
     }
     //setShowCardsDeck(false);
