@@ -1,18 +1,38 @@
+.App {
+  text-align: center;
+}
 
-.app {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
-    height: 100vh; /* Set the height to viewport height for full-screen effect */
-  }
-  
-  .header {
-    text-align: center;
-    margin-bottom: 20px; /* Add some spacing between the header and cards */
-  }
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
 
-  /* .container {
-    display: flex;
-    justify-content: center; /* Center the card row horizontally */
-    
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
